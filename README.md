@@ -1,252 +1,163 @@
-<p align="center">
-  <img src="c.png" alt="C Monorepo Logo" width="200" />
-</p>
+# C Gaming Monorepo with Raylib
 
-<p align="center">
-  <a href="https://github.com/dunamismax/c-monorepo">
-    <img src="https://readme-typing-svg.demolab.com/?font=Fira+Code&size=24&pause=1000&color=3071A4&center=true&vCenter=true&width=800&lines=C+Programming+Monorepo;ARM64+Optimized+Build+System;Educational+%2B+Production+Ready;High-Performance+C+Development;From+CLI+Tools+to+Games." alt="Typing SVG" />
-  </a>
-</p>
-
-<p align="center">
-  <a href="https://clang.llvm.org/"><img src="https://img.shields.io/badge/Clang-17+-blue.svg?logo=llvm" alt="Clang Version"></a>
-  <a href="https://developer.apple.com/documentation/apple-silicon"><img src="https://img.shields.io/badge/ARM64-Apple_Silicon-black.svg?logo=apple" alt="ARM64 Apple Silicon"></a>
-  <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-green.svg" alt="MIT License"></a>
-  <a href="https://github.com/dunamismax/c-monorepo/pulls"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs Welcome"></a>
-  <a href="https://github.com/dunamismax/c-monorepo/stargazers"><img src="https://img.shields.io/github/stars/dunamismax/c-monorepo" alt="GitHub Stars"></a>
-</p>
-
----
-
-## About This Project
-
-A production-ready, security-hardened C monorepo optimized for ARM64 Apple Silicon. Features 5 working applications, 2 optimized libraries, and a comprehensive build system with advanced compiler optimizations and automated testing.
-
-**Key Features:**
-
-- **ARM64 Optimized**: Apple Silicon-specific optimizations with parallel builds and LTO
-- **Security Hardened**: Buffer overflow protection, input validation, memory safety
-- **Production Ready**: Comprehensive testing and quality assurance with automated test suite
-- **Professional Build System**: Cross-platform Makefile with intelligent dependency detection
-- **Complete Applications**: Calculator, file utilities, text processor, games with AI
-- **Optimized Libraries**: Math utilities and data structures for high-performance computing
-
----
+A complete, scalable, and self-contained C gaming monorepo using the raylib library. Professional starting point for developing multiple 2D pixel art games in C, featuring a complete Flappy Bird clone called "FOSS Flapper".
 
 ## Quick Start
 
 ### Prerequisites
 
 ```bash
-# macOS (Primary Platform)
+# macOS
 xcode-select --install
 
-# Ubuntu/Debian
-sudo apt-get install build-essential clang make
+# Ubuntu/Debian  
+sudo apt-get install build-essential clang make git
 
-# Optional tools
-brew install clang-format    # macOS
+# Arch Linux
+sudo pacman -S base-devel clang make git
 ```
 
-### Build & Run
+### Build and Run
 
 ```bash
-git clone https://github.com/dunamismax/c-monorepo.git
-cd c-monorepo
+# Clone with submodules
+git clone --recurse-submodules https://github.com/dunamismax/c-raylib
+cd c-raylib
 
 # Build everything
-make                          # Release mode (default)
-make MODE=debug              # Debug with sanitizers
-make MODE=profile            # Profile build
+make
 
-# Run applications
-make run-calculator          # Scientific calculator
-make run-tic_tac_toe        # AI-powered game
-make run-file_utils         # File operations
-
-# Development workflow
-make test                    # Run comprehensive test suite
-make format lint            # Code quality checks
+# Run the demo game
+./build/foss_flapper
 ```
 
----
-
-## Build System
-
-Professional cross-platform Makefile with ARM64 optimization, parallel builds, and comprehensive development tools.
-
-### Core Commands
+### Individual Targets
 
 ```bash
-# Building
-make libs apps              # Build libraries and applications
-make test                   # Build and run test suite
-make clean                  # Clean build artifacts
-
-# Quality Assurance
-make format                 # Format code with clang-format
-make lint                   # Static analysis with clang-tidy
-make benchmark             # Performance testing
-
-# Execution
-make run-<app>             # Run specific application
-make install               # Install to /usr/local
-make help                  # Show all targets
+make clean              # Clean build artifacts
+make raylib             # Build raylib only
+make libs               # Build shared libraries
+make games              # Build all games
+make foss-flapper       # Build FOSS Flapper specifically
+make run-foss_flapper   # Build and run FOSS Flapper
 ```
-
-### Optimization Features
-
-- **Apple Silicon**: `-mcpu=apple-m1 -mtune=apple-m1 -arch arm64` for maximum performance
-- **Link-Time Optimization**: `-flto=thin` in release builds
-- **Parallel Builds**: Automatically uses all CPU cores
-- **Cross-Platform**: Adapts flags for macOS and Linux
-- **Security**: Stack protection and memory sanitizers in debug mode
-
----
 
 ## Project Structure
 
 ```
-c-monorepo/
-├── apps/                   # Applications
-│   ├── cli/               # Command-line tools
-│   └── games/             # Interactive games
-├── libs/                  # Shared libraries
-│   ├── data_structures/   # Vector implementation
-│   └── math_utils/        # Mathematical algorithms
-├── tests/                 # Comprehensive test suite
-├── scripts/               # Build automation
-└── Makefile              # Build system
+c-raylib/
+├── assets/                    # Game assets
+│   └── foss_flapper/
+│       ├── audio/            # Sound effects and music
+│       └── textures/         # Sprites and images
+├── games/                    # Individual games
+│   └── foss_flapper/
+│       ├── src/             # Game source code
+│       └── assets/          # Symlink to ../../assets/foss_flapper
+├── libs/                     # Shared libraries
+│   └── corelib/
+│       ├── src/             # Library source code
+│       └── include/         # Library headers
+├── vendor/                   # Third-party dependencies
+│   └── raylib/              # Raylib submodule
+├── Makefile                 # Build system
+└── README.md               # This file
 ```
 
-### Technology Stack
+### Directory Purpose
 
-- **C11 Standard** with ARM64-specific optimizations
-- **Clang Compiler** for Apple Silicon and cross-platform compatibility
-- **Comprehensive Testing** with automated test suite and security scanning
-- **Static Analysis** with clang-tidy and AddressSanitizer
-- **Cross-Platform Support** for macOS and Linux
+- **`games/`**: Contains individual game projects. Each game has its own directory with source code and assets.
+- **`libs/`**: Shared libraries used across multiple games. Currently includes `corelib` with animation system.
+- **`vendor/`**: Third-party dependencies managed as git submodules. Contains the official raylib library.
+- **`assets/`**: Centralized asset storage that can be shared between games via symlinks.
 
----
+## FOSS Flapper Game
 
-## Applications & Libraries
+A complete Flappy Bird clone featuring:
 
-### Applications
+- **Game States**: Ready screen, playing mode, and game over screen
+- **Physics**: Gravity-based bird movement with jump mechanics
+- **Procedural Generation**: Infinite scrolling pipes with randomized gaps
+- **Collision Detection**: Circle-to-rectangle collision system
+- **Scoring**: Score tracking with high score persistence
+- **Responsive Controls**: Mouse click or spacebar to play
 
-**Calculator**: Scientific calculator with advanced mathematical operations, factorial, prime checking, and comprehensive input validation.
+### Game Controls
 
-**File Utils**: Secure file operations with path traversal protection and system programming features.
+- **Mouse Click** or **Spacebar**: Make the bird flap
+- **Any Key**: Restart after game over
 
-**Text Processor**: String manipulation tool with case conversion, find/replace, and interactive sorting.
+## Core Library (corelib)
 
-**Tic-Tac-Toe**: AI-powered game with intelligent strategies and two-player mode.
+The shared `corelib` provides common game functionality:
 
-**Number Guessing**: Multi-difficulty game with hint system and performance tracking.
+### Animation System
 
-### Libraries
+```c
+// Create an animation from spritesheet frames
+Animation CreateAnimation(Texture2D spritesheet, Rectangle* frames, 
+                         int frameCount, float frameDuration, bool loop);
 
-**Math Utils** (`libmath_utils.a`): Euclidean GCD/LCM, factorial, Fibonacci, prime checking, and power functions optimized for ARM64.
+// Update animation timing
+void UpdateAnimation(Animation* anim, float deltaTime);
 
-**Data Structures** (`libdata_structures.a`): Dynamic vector implementation with bounds checking and efficient memory management.
+// Draw current animation frame
+void DrawAnimation(Animation anim, Vector2 position, float rotation);
+```
 
----
+## Build System Features
 
-## Testing & Quality
+The Makefile provides a comprehensive build system with:
 
-### Comprehensive Test Suite
+- **Auto-Discovery**: Automatically finds and builds all games and libraries
+- **Cross-Platform**: Supports macOS, Linux with appropriate compiler flags
+- **Optimization**: ARM64-specific optimizations for Apple Silicon
+- **Parallel Builds**: Uses all available CPU cores
+- **Raylib Integration**: Builds raylib from source and links correctly
+- **Clean Dependencies**: Proper dependency tracking for incremental builds
+
+### Build Modes
 
 ```bash
-make test                   # All tests (29 tests across 4 suites)
-make test MODE=debug       # Debug build testing
-make test MODE=release     # Release validation
+make MODE=release    # Optimized build (default)
+make MODE=debug      # Debug build with symbols
 ```
 
-**Test Coverage:**
+### Platform Support
 
-- **Unit Tests**: Math utilities, data structures
-- **Integration Tests**: Application functionality and security
-- **Security Tests**: Buffer overflow, format string protection
-- **Cross-Platform**: macOS and Linux compatibility
+- **macOS**: Native Apple Silicon optimization with required frameworks
+- **Linux**: OpenGL and X11 integration
+- **Cross-compilation ready** for other platforms
 
-### Automated Testing
+## Development Workflow
 
-Comprehensive test automation with multi-platform support:
+1. **Add New Game**: Create directory in `games/` with `src/` subdirectory
+2. **Add Assets**: Place in `assets/game_name/` and create symlink in game directory
+3. **Use Shared Code**: Include `corelib.h` and link against the library
+4. **Build**: Run `make` - new games are auto-discovered
+5. **Test**: Use `make run-game_name` to build and run
 
-- **Build & Test**: Debug, release, and profile modes across macOS and Linux
-- **Security Testing**: Buffer overflow and vulnerability detection
-- **Static Analysis**: clang-tidy integration with comprehensive checks
-- **Performance Testing**: Benchmarking on release builds
-- **Quality Assurance**: All tests must pass with comprehensive quality gates
+## Technical Details
 
----
+- **C Standard**: C11 with modern compiler features
+- **Graphics**: raylib for cross-platform graphics, audio, and input
+- **Memory Management**: Safe memory practices with proper cleanup
+- **Performance**: Optimized for 60 FPS gaming with efficient rendering
+- **Modularity**: Clean separation between games and shared libraries
 
-## Security Features
+## Contributing
 
-### Memory Safety
-
-- Buffer overflow protection with bounds checking
-- Safe string operations with size validation
-- Memory leak prevention with comprehensive cleanup
-- AddressSanitizer and UndefinedBehaviorSanitizer integration
-
-### Input Validation
-
-- Path traversal prevention in file operations
-- Format string attack protection in calculator
-- Comprehensive input sanitization across all applications
-- Integer overflow detection in mathematical operations
-
-### Secure Development
-
-- Compiler hardening flags (`-fstack-protector-strong`)
-- Static analysis integration for vulnerability detection
-- Security-focused code review and testing procedures
-
----
-
-## Troubleshooting
-
-**Build Issues**: Run `make clean && make` to rebuild. Ensure Xcode Command Line Tools installed on macOS.
-
-**Test Failures**: Build applications first with `make apps`. Tests require built binaries for integration testing.
-
-**Missing Tools**: clang-tidy is optional - install with `brew install llvm` or lint target will skip.
-
-**Performance**: Use `make MODE=release` for optimized builds. Debug mode includes sanitizers that impact performance.
-
----
-
-## Support This Project
-
-If you find this project valuable for your C development journey, consider supporting its continued development:
-
-<p align="center">
-  <a href="https://www.buymeacoffee.com/dunamismax" target="_blank">
-    <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" />
-  </a>
-</p>
-
----
-
-## Let's Connect
-
-<p align="center">
-  <a href="https://twitter.com/dunamismax" target="_blank"><img src="https://img.shields.io/badge/Twitter-%231DA1F2.svg?&style=for-the-badge&logo=twitter&logoColor=white" alt="Twitter"></a>
-  <a href="https://bsky.app/profile/dunamismax.bsky.social" target="_blank"><img src="https://img.shields.io/badge/Bluesky-blue?style=for-the-badge&logo=bluesky&logoColor=white" alt="Bluesky"></a>
-  <a href="https://reddit.com/user/dunamismax" target="_blank"><img src="https://img.shields.io/badge/Reddit-%23FF4500.svg?&style=for-the-badge&logo=reddit&logoColor=white" alt="Reddit"></a>
-  <a href="https://discord.com/users/dunamismax" target="_blank"><img src="https://img.shields.io/badge/Discord-dunamismax-7289DA.svg?style=for-the-badge&logo=discord&logoColor=white" alt="Discord"></a>
-  <a href="https://signal.me/#p/+dunamismax.66" target="_blank"><img src="https://img.shields.io/badge/Signal-dunamismax.66-3A76F0.svg?style=for-the-badge&logo=signal&logoColor=white" alt="Signal"></a>
-</p>
-
----
+1. Fork the repository
+2. Create a feature branch
+3. Add your game or library improvements  
+4. Ensure `make` builds without errors
+5. Submit a pull request
 
 ## License
 
-This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
-<p align="center">
-  <strong>Built with Pure C for ARM64</strong><br>
-  <sub>A comprehensive foundation for high-performance, Apple Silicon-optimized C development</sub>
-</p>
+**Built for Modern C Game Development**  
+*A professional foundation for creating multiple games with shared libraries and optimized build system*
